@@ -26,7 +26,15 @@ fun main() {
 
 
     runBlocking {
+        /**
+         *
+         *
+         * @filter() operator to get the numbers we need
+         * @map() operator to transform the data to uiModel which is a better abstraction for this layer of the app
+         * @catch() operator catches exceptions that could happen while processing items in the upstream flow
+         * */
         requestNumbers()
+
             .filter { number -> number > 2 }
             .map { number -> toUiModel(number) }
             .catch { error -> println(error) }
