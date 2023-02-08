@@ -8,6 +8,7 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
+import kotlin.math.log
 import kotlin.system.measureTimeMillis
 
 class MainActivity : AppCompatActivity() {
@@ -15,28 +16,29 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         /*val job =*/ GlobalScope.launch(Dispatchers.Main) {
-            val time = measureTimeMillis {
-                producer()
-                    /*
-                .onStart {
-                    Log.d("FLOWSDEMO", "onCreate: Starting Outl")
-                }
-                .onCompletion {
-                    Log.d("FLOWSDEMO", "Completed")
 
-                }
-                .onEach {
-                    Log.d("FLOWSDEMO", "About to Emit $it")
+            producer()
+                .flowOn(Dispatchers.IO)
+                /*
+            .onStart {
+                Log.d("FLOWSDEMO", "onCreate: Starting Outl")
+            }
+            .onCompletion {
+                Log.d("FLOWSDEMO", "Completed")
 
-                }
-                    */
+            }
+            .onEach {
+                Log.d("FLOWSDEMO", "About to Emit $it")
 
-                    /*  .map {
-                          */
-                    /**
-                     * convert the data in to other form
-                     * @ex :- we have multiply the result with 2
-                     * *//*
+            }
+                */
+
+                /*  .map {
+                      */
+                /**
+                 * convert the data in to other form
+                 * @ex :- we have multiply the result with 2
+                 * *//*
                     it * 2
                 }
                 .filter {
@@ -44,14 +46,13 @@ class MainActivity : AppCompatActivity() {
                     it < 8
                 }*/
 
-                    .buffer(3)
+                //.buffer(3)
 
-                    .collect {
-                        delay(1500)
-                        Log.d("FLOWSDEMO", it.toString())
-                    }
-            }
-            Log.d("FLOWSDEMO", "onCreate: $time")
+                .collect {
+                    //delay(1500)
+                    Log.d("KOTLIN_FLOW", "Consumer Thread: ${Thread.currentThread().name} ")
+                    // Log.d("FLOWSDEMO", it.toString())
+                }
 
         }
         /*
@@ -74,13 +75,13 @@ class MainActivity : AppCompatActivity() {
          * create multiple consumer to consume the same flow
          * */
 
-        /*GlobalScope.launch {
-            val data: Flow<Int> = producer()
-            delay(2500)
-            data.collect {
-                Log.d("FLOWSDEMO - 2", it.toString())
-            }
-        }*/
+        /* GlobalScope.launch {
+             val data: Flow<Int> = producer()
+             delay(2500)
+             data.collect {
+                 Log.d("FLOWSDEMO - 2", it.toString())
+             }
+         }*/
 
     }
 
@@ -88,6 +89,7 @@ class MainActivity : AppCompatActivity() {
         val list = listOf<Int>(1, 2, 3, 4, 5/*, 6, 7, 8, 9, 10*/)
         list.forEach {
             delay(1000)
+            Log.d("KOTLIN_FLOW", "Emitter Thread: ${Thread.currentThread().name} ")
             emit(it)
         }
     }
