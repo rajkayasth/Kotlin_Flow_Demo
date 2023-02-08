@@ -8,13 +8,16 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
+import kotlin.system.measureTimeMillis
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         /*val job =*/ GlobalScope.launch(Dispatchers.Main) {
-            producer()
+            val time = measureTimeMillis {
+                producer()
+                    /*
                 .onStart {
                     Log.d("FLOWSDEMO", "onCreate: Starting Outl")
                 }
@@ -26,9 +29,29 @@ class MainActivity : AppCompatActivity() {
                     Log.d("FLOWSDEMO", "About to Emit $it")
 
                 }
-                .collect {
-                    Log.d("FLOWSDEMO", it.toString())
+                    */
+
+                    /*  .map {
+                          */
+                    /**
+                     * convert the data in to other form
+                     * @ex :- we have multiply the result with 2
+                     * *//*
+                    it * 2
                 }
+                .filter {
+                    // filter the record which consumer
+                    it < 8
+                }*/
+
+                    .buffer(3)
+
+                    .collect {
+                        delay(1500)
+                        Log.d("FLOWSDEMO", it.toString())
+                    }
+            }
+            Log.d("FLOWSDEMO", "onCreate: $time")
 
         }
         /*
