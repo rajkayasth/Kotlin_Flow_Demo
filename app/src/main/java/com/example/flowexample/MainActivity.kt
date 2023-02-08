@@ -1,8 +1,10 @@
 package com.example.flowexample
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.widget.TextView
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
@@ -15,11 +17,19 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        /*val job =*/ GlobalScope.launch(Dispatchers.Main) {
+
+        val txtView = findViewById<TextView>(R.id.textView)
+
+        txtView.setOnClickListener {
+            val intent = Intent(this@MainActivity,SharedFlowActivity::class.java)
+            startActivity(intent)
+        }
+
+        /*val job =*/ /*GlobalScope.launch(Dispatchers.Main) {
 
             producer()
                 .flowOn(Dispatchers.IO)
-                /*
+                *//*
             .onStart {
                 Log.d("FLOWSDEMO", "onCreate: Starting Outl")
             }
@@ -31,20 +41,20 @@ class MainActivity : AppCompatActivity() {
                 Log.d("FLOWSDEMO", "About to Emit $it")
 
             }
-                */
+                *//*
 
-                /*  .map {
-                      */
-                /**
+                *//*  .map {
+                      *//*
+                *//**
                  * convert the data in to other form
                  * @ex :- we have multiply the result with 2
-                 * *//*
+                 * *//**//*
                     it * 2
                 }
                 .filter {
                     // filter the record which consumer
                     it < 8
-                }*/
+                }*//*
 
                 //.buffer(3)
 
@@ -54,7 +64,7 @@ class MainActivity : AppCompatActivity() {
                     // Log.d("FLOWSDEMO", it.toString())
                 }
 
-        }
+        }*/
         /*
         GlobalScope.launch {
             */
