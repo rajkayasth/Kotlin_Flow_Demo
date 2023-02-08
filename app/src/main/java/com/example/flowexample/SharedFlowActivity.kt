@@ -8,6 +8,7 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.launch
 
@@ -15,8 +16,18 @@ class SharedFlowActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_shared_flow)
-        shareFlowDemo()
+        //shareFlowDemo()
+        stateFlowDemo()
+    }
 
+    private fun stateFlowDemo() {
+        GlobalScope.launch(Dispatchers.Main) {
+            val result = producerStateFlow()
+            delay(6000)
+            result.collect {
+                Log.d("stateFlowDemo", "stateFlowDemo: Item -$it")
+            }
+        }
     }
 
     private fun shareFlowDemo() {
@@ -45,5 +56,16 @@ class SharedFlowActivity : AppCompatActivity() {
             }
         }
         return mutableShareFlowDemo
+    }
+
+    private fun producerStateFlow(): Flow<Int> {
+        val mutableStateFlow = MutableStateFlow(10)
+        GlobalScope.launch {
+            delay(2000)
+            mutableStateFlow.emit(20)
+            delay(2000)
+            mutableStateFlow.emit(30)
+        }
+        return mutableStateFlow
     }
 }
