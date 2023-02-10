@@ -4,7 +4,9 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.widget.Button
 import android.widget.TextView
+import com.example.flowexample.timerdemo.ui.TimerActivity
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
@@ -19,9 +21,15 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         val txtView = findViewById<TextView>(R.id.textView)
+        val btnTimer = findViewById<Button>(R.id.btnNext)
+
+        btnTimer.setOnClickListener {
+            val intent = Intent(this@MainActivity, TimerActivity::class.java)
+            startActivity(intent)
+        }
 
         txtView.setOnClickListener {
-            val intent = Intent(this@MainActivity,SharedFlowActivity::class.java)
+            val intent = Intent(this@MainActivity, SharedFlowActivity::class.java)
             startActivity(intent)
         }
 
@@ -45,10 +53,11 @@ class MainActivity : AppCompatActivity() {
 
                 *//*  .map {
                       *//*
-                *//**
-                 * convert the data in to other form
-                 * @ex :- we have multiply the result with 2
-                 * *//**//*
+                */
+        /**
+         * convert the data in to other form
+         * @ex :- we have multiply the result with 2
+         * *//**//*
                     it * 2
                 }
                 .filter {
